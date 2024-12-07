@@ -45,7 +45,63 @@ type Props = {
 };
 
 const CategoriesPageComponent: FC<Props> = ({ categories }) => {
-    return <>CategoriesPageComponent</>;
+
+    const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false);
+
+    const [currentCategory, setCurrentCategory] = useState<CreateCategorySchema | null>(null);
+
+    const form = useForm<CreateCategorySchema>({
+        resolver: zodResolver(createCategorySchema),
+        defaultValues: {
+            name: '',
+            image: undefined
+        }
+    });
+
+    const submitCategoryHandler: SubmitHandler<
+        CreateCategorySchema
+    > = async data => {
+        console.log(data);
+    }
+
+    return (
+        <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
+            <div className='flex items-center my-10'>
+                <div className='ml-auto flex items-center gap-2'>
+                    <Dialog
+                        open={isCreateCategoryModalOpen}
+                        onOpenChange={() => {
+                            setIsCreateCategoryModalOpen(!isCreateCategoryModalOpen)
+                        }}
+                    >
+                        <DialogTrigger asChild>
+                            <Button size='sm' className='h-8 gap-1' onClick={() => {
+                                setCurrentCategory(null);
+                                setIsCreateCategoryModalOpen(true);
+                            }}>
+                                <PlusCircle className='h-3.5 w-3.5' />
+                                <span className='sr-only sm-not-sr-only sm-whitespace'>
+                                    Add Category
+                                </span>
+                            </Button>
+                        </DialogTrigger>
+
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Create Category</DialogTitle>
+                            </DialogHeader>
+
+                            <CategoryForm
+                                form={form}
+                                onSubmit={submitCategoryHandler}
+                                defaultValues={currentCategory}
+                            />
+                        </DialogContent>
+                    </Dialog>
+                </div>
+            </div>
+        </main>
+    );
 };
 
 export default CategoriesPageComponent;
