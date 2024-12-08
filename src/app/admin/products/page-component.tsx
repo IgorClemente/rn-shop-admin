@@ -11,6 +11,12 @@ import { v4 as uuid } from 'uuid';
 import { imageUploadHandler } from '@/actions/categories';
 import { toast } from 'sonner';
 import { createProduct, deleteProduct, updateProduct } from '@/actions/products';
+import { PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ProductTableRow } from './product-table-row';
+import { ProductForm } from './product-form';
+import { Dialog, DialogContent, DialogFooter, DialogHeader } from '@/components/ui/dialog';
 
 type Props = {
     categories: Category[];
@@ -96,7 +102,7 @@ export const ProductPageComponent: FC<Props> = ({
                     await createProduct({
                         category: Number(category),
                         images: imagesUrl,
-                        heroImage,
+                        heroImage: heroImageUrl,
                         maxQuantity: Number(maxQuantity),
                         price: Number(price),
                         title
@@ -112,7 +118,7 @@ export const ProductPageComponent: FC<Props> = ({
                 if (heroImageUrl && imagesUrl.length > 0 && slug) {
                     await updateProduct({
                         category: Number(category),
-                        heroImage,
+                        heroImage: heroImageUrl,
                         imagesUrl,
                         maxQuantity: Number(maxQuantity),
                         price: Number(price),
@@ -141,7 +147,74 @@ export const ProductPageComponent: FC<Props> = ({
     }
 
     return (
-        <div>ProductPageComponent</div>
+        <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
+            <div className='container mx-auto p-4'>
+                <div className='flex justify-between items-center mb-4'>
+                    <h1 className='text-2xl font-bold'>
+                        Products Management
+                    </h1>
+                    <Button
+                        onClick={() => {
+                            setCurrentProduct(null);
+                            setIsProductModalOpen(true);
+                        }}
+                    >
+                        <PlusIcon className='mr-2 h-4 w-4' /> Add Product
+                    </Button>
+                </div>
+
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Title</TableHead>
+                            <TableHead>Category</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Max Quantity</TableHead>
+                            <TableHead>Hero Image</TableHead>
+                            <TableHead>Product Images</TableHead>
+                            <TableHead>Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {
+                            productsWithCategories.map(product => (
+                                <ProductTableRow
+                                    key={product.id}
+                                    product={product}
+                                    setCurrentProduct={setCurrentProduct}
+                                    setIsProductModalOpen={setIsProductModalOpen}
+                                    setIsDeleteModalOpen={setIsDeleteModalOpen}
+                                />
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+
+                <ProductForm
+                    form={form}
+                    onSubmit={productCreateUpdateHandler}
+                    categories={categories}
+                    isProductModalOpen={isProductModalOpen}
+                    setIsProductModalOpen={setIsProductModalOpen}
+                    defaultValues={currentProduct}
+                />
+
+                <Dialog
+                    open={isDeleteModalOpen}
+                    onOpenChange={setIsDeleteModalOpen}
+                >
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogContent>Delete Product</DialogContent>
+                        </DialogHeader>
+                        <p>Are you sure you want to delete {currentProduct?.title}</p>
+                        <DialogFooter>
+                            <Button variant='destructive' onClick={deleteProductHandler}>Delete</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </main>
     )
 }
 
