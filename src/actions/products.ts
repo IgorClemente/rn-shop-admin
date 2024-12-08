@@ -6,7 +6,7 @@ import { createClient } from "@/supabase/server";
 import { ProductsWithCategoriesResponse, UpdateProductSchema } from "@/app/admin/products/products.types";
 import { CreateProductSchemaServer, createProductSchemaServer } from "@/app/admin/products/schema";
 
-const supabase = createClient();
+const supabase = await createClient();
 
 export const getProductWithCategories = async (): Promise<ProductsWithCategoriesResponse> => {
     const { data, error } = await supabase

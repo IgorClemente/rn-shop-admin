@@ -20,7 +20,7 @@ export type UpdateProductSchema = {
     heroImage: string;
     imagesUrl: string[];
     maxQuantity: number;
-    price: number | null;
+    price: number;
     slug: string;
     title: string;
 };
