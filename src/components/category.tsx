@@ -46,7 +46,7 @@ export const CategoryTableRow = ({
       // @ts-ignore
       image: new File([], ''),
       intent: 'update',
-      //slug: category.slug,
+      slug: category.slug,
     });
     setIsCreateCategoryModalOpen(true);
   };
@@ -129,7 +129,7 @@ export const CategoryTableRow = ({
                 onClick={() =>
                   handleEditClick({
                     ...category,
-                    // intent: 'update',
+                    intent: 'update',
                   })
                 }
               >
