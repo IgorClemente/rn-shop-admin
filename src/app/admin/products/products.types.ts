@@ -1,5 +1,6 @@
 import { Type } from "lucide-react";
 import { z } from "zod";
+import { Category } from "@/app/admin/categories/categories.types";
 
 export type ProductWithCategory = {
     id: number;
@@ -8,11 +9,11 @@ export type ProductWithCategory = {
     imagesUrl: string[];
     price: number;
     heroImage: string;
-    category: number;
+    category: Category;
     maxQuantity: number;
 };
 
-export type ProductWithCategoriesResponse = ProductWithCategory[];
+export type ProductsWithCategoriesResponse = ProductWithCategory[];
 
 export type UpdateProductSchema = {
     category: number;
