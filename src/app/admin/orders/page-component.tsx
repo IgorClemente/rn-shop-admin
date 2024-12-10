@@ -31,6 +31,9 @@ import {
 } from '@/components/ui/dialog';
 
 import { OrderWithProducts } from "./types";
+import { updateOrderStatus } from '@/actions/orders';
+
+const statusOptions = ['Pending', 'Shipped', 'InTransit', 'Completed'];
 
 type Props = {
     ordersWithProducts: OrderWithProducts;
@@ -64,6 +67,10 @@ export default function PageComponent({ ordersWithProducts }: Props) {
         }))
     );
 
+    const handleStatusChange = async (orderId: number, status: string) => {
+        await updateOrderStatus(orderId, status);
+    };
+
     return (
         <div className='container mx-auto p-6 '>
             <h1 className='text-2xl font-bold mb-6'>Orders Management Dashboard</h1>
@@ -89,7 +96,22 @@ export default function PageComponent({ ordersWithProducts }: Props) {
                                 <TableCell>
                                     {format(new Date(order.created_at), 'MMM dd, yyyy')}
                                 </TableCell>
-                                <TableCell>status</TableCell>
+                                <TableCell>
+                                    <Select onValueChange={value => handleStatusChange(order.id, value)} defaultValue={order.status}>
+                                        <SelectTrigger className='w-[120px]'>
+                                            <SelectValue>{order.status}</SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                statusOptions.map(status => (
+                                                    <SelectItem key={status} value={status}>
+                                                        {status}
+                                                    </SelectItem>
+                                                ))
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                </TableCell>
                                 <TableCell>{order.description || "No description"}</TableCell>
                                 {/* @ts-ignore */}
                                 <TableCell>{order.user.email}</TableCell>
