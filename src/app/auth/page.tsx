@@ -45,7 +45,10 @@ export default function Auth() {
         try {
             await authenticate(email, password);
             router.push('/admin');
-        } catch (error) {
+        } catch {
+            console.log('An error occurred when authenticating');
+            setIsAuthenticating(false);
+
         } finally {
             setIsAuthenticating(false);
         }

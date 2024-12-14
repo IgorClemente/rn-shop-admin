@@ -4,11 +4,12 @@ import slugify from "slugify";
 import { createClient } from "@/supabase/server";
 
 import { ProductsWithCategoriesResponse, UpdateProductSchema } from "@/app/admin/products/products.types";
-import { CreateProductSchemaServer, createProductSchemaServer } from "@/app/admin/products/schema";
-
-const supabase = await createClient();
+import { CreateProductSchemaServer } from "@/app/admin/products/schema";
 
 export const getProductWithCategories = async (): Promise<ProductsWithCategoriesResponse> => {
+
+    const supabase = await createClient();
+
     const { data, error } = await supabase
         .from('product')
         .select('*, category:category(*)')
@@ -31,6 +32,8 @@ export const createProduct = async ({
 }: CreateProductSchemaServer) => {
 
     const slug = slugify(title, { lower: true });
+
+    const supabase = await createClient();
 
     const { data, error } = await supabase
         .from('product')
@@ -59,6 +62,8 @@ export const updateProduct = async ({
     title
 }: UpdateProductSchema) => {
 
+    const supabase = await createClient();
+
     const { data, error } = await supabase
         .from('product')
         .update({
@@ -77,6 +82,9 @@ export const updateProduct = async ({
 };
 
 export const deleteProduct = async (slug: string) => {
+
+    const supabase = await createClient();
+
     const { error } = await supabase.from('product').delete().match({ slug });
 
     if (error) throw new Error(`Error deleting product: ${error.message}`);

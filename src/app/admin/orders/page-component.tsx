@@ -30,13 +30,13 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 
-import { OrderWithProducts } from "./types";
+import { OrdersWithProducts } from "./types";
 import { updateOrderStatus } from '@/actions/orders';
 
 const statusOptions = ['Pending', 'Shipped', 'InTransit', 'Completed'];
 
 type Props = {
-    ordersWithProducts: OrderWithProducts;
+    ordersWithProducts: OrdersWithProducts;
 };
 
 type OrderedProducts = {
@@ -46,11 +46,11 @@ type OrderedProducts = {
         created_at: string;
         heroImage: string;
         id: number;
-        imagesUrl: string;
+        imagesUrl: string[];
         maxQuantity: number;
         price: number;
         slug: string;
-        title: string;
+        title: string | null;
     };
 }[];
 
@@ -113,7 +113,7 @@ export default function PageComponent({ ordersWithProducts }: Props) {
                                     </Select>
                                 </TableCell>
                                 <TableCell>{order.description || "No description"}</TableCell>
-                                {/* @ts-ignore */}
+                                {/* @ts-expect-error email ignored */}
                                 <TableCell>{order.user.email}</TableCell>
                                 <TableCell>{order.slug}</TableCell>
                                 <TableCell>$ {order.totalPrice.toFixed(2)}</TableCell>
@@ -147,7 +147,7 @@ export default function PageComponent({ ordersWithProducts }: Props) {
                                                             <Image
                                                                 className='w-16 h-16 object-cover rounded'
                                                                 src={product.heroImage}
-                                                                alt={product.title}
+                                                                alt={product.title || ""}
                                                                 width={64}
                                                                 height={64}
                                                             />

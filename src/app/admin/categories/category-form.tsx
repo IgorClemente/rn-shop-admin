@@ -19,6 +19,7 @@ export const CategoryForm = ({
     onSubmit,
     defaultValues,
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     form: any;
     onSubmit: SubmitHandler<CreateCategorySchema>;
     defaultValues: CreateCategorySchema | null;

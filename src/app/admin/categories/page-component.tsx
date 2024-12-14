@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
@@ -96,7 +95,7 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
                     const imageUrl = await handleImageUpload();
 
                     await updateCategory({
-                        imageUrl,
+                        imageUrl: imageUrl || '',
                         name,
                         slug: currentCategory.slug,
                         intent: 'update'

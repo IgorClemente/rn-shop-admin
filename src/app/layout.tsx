@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ['latin'] });
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Rn Shop',
   description: 'Rn Shop - Project'
 };
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

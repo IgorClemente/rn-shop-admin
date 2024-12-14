@@ -1,5 +1,3 @@
-import { Type } from "lucide-react";
-import { z } from "zod";
 import { Category } from "@/app/admin/categories/categories.types";
 
 export type ProductWithCategory = {

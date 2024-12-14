@@ -2,10 +2,10 @@
 
 import { createClient } from "@/supabase/server";
 
-const supabase = await createClient();
-
 export const authenticate = async (email: string, password: string) => {
     try {
+        const supabase = await createClient();
+
         const { error } = await supabase.auth.signInWithPassword({
             email,
             password
@@ -18,6 +18,9 @@ export const authenticate = async (email: string, password: string) => {
 }
 
 export const getLatestUsers = async () => {
+
+    const supabase = await createClient();
+
     const { data, error } = await supabase
         .from('users')
         .select('id, email, created_at')

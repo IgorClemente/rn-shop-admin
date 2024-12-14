@@ -10,8 +10,6 @@ const AdminDashboard = async () => {
     const categoryData = await getCategoryData();
     const latestUsers = await getLatestUsers();
 
-    console.log(latestUsers);
-
     return (
         <PageComponent
             latestUsers={latestUsers}
